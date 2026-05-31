@@ -1,0 +1,2871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio — Atelier ASK</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --umber: #4A1B0C;
+            --sienna: #993C1D;
+            --terra: #F0997B;
+            --linen: #FAECE7;
+            --linen2: #F5E0D8;
+            --stone: #B4B2A9;
+            --stone-dark: #888780;
+            --ink: #2C2C2A;
+            --off-white: #FAF8F5;
+            --serif: 'EB Garamond', Georgia, serif;
+            --sans: 'DM Sans', sans-serif;
+            --display: 'Tenor Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--off-white);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-weight: 300;
+            line-height: 1.7;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--terra);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, background 0.2s;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 0.5px solid var(--terra);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.2s;
+            opacity: 0.6;
+        }
+
+        body:hover .cursor {
+            opacity: 1;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 60px;
+            mix-blend-mode: multiply;
+        }
+
+        .nav-logo {
+            font-family: var(--display);
+            font-size: 15px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--umber);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--sienna);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 60px 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.3s forwards;
+        }
+
+        .hero-name {
+            font-family: var(--display);
+            font-size: clamp(48px, 6vw, 80px);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--umber);
+            line-height: 1.05;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.5s forwards;
+        }
+
+        .hero-title-line {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: clamp(16px, 2vw, 22px);
+            color: var(--sienna);
+            margin-bottom: 36px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.7s forwards;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: var(--stone-dark);
+            max-width: 340px;
+            line-height: 1.8;
+            margin-bottom: 44px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.9s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--umber);
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeUp 0.9s 1.1s forwards;
+            transition: gap 0.3s;
+        }
+
+        .hero-cta:hover {
+            gap: 24px;
+        }
+
+        .hero-cta-line {
+            width: 40px;
+            height: 0.5px;
+            background: var(--terra);
+            transition: width 0.3s;
+        }
+
+        .hero-cta:hover .hero-cta-line {
+            width: 60px;
+        }
+
+        .hero-right {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(32px);
+            animation: fadeUp 0.9s 1.2s forwards;
+        }
+
+        .hero-image-block {
+            position: absolute;
+            inset: 0;
+            background: var(--linen);
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(30, 18, 10, 0.55) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-slide-label {
+            position: absolute;
+            bottom: 48px;
+            left: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            pointer-events: none;
+        }
+
+        .hero-slide-label-cat {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+
+        .hero-slide-label-title {
+            font-family: var(--serif);
+            font-size: clamp(1rem, 1.6vw, 1.3rem);
+            font-style: italic;
+            line-height: 1.3;
+        }
+
+        .hero-slide-hint {
+            position: absolute;
+            bottom: 48px;
+            right: 40px;
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .hero-dots {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 2;
+            pointer-events: all;
+        }
+
+        .hero-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .hero-dot.active {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.4);
+        }
+
+        .hero-counter {
+            position: absolute;
+            bottom: 80px;
+            right: 60px;
+            font-family: var(--serif);
+            font-size: 13px;
+            color: var(--stone);
+            text-align: right;
+            opacity: 0;
+            animation: fadeUp 0.9s 1.3s forwards;
+        }
+
+        .hero-counter strong {
+            display: block;
+            font-family: var(--display);
+            font-size: 48px;
+            color: var(--terra);
+            line-height: 1;
+            font-weight: 400;
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--stone);
+            opacity: 0;
+            animation: fadeUp 0.9s 1.5s forwards;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: var(--terra);
+            animation: scrollPulse 2s 2s infinite;
+        }
+
+        /* About strip */
+        .about-strip {
+            background: var(--umber);
+            padding: 80px 60px;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-label {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 16px;
+        }
+
+        .about-heading {
+            font-family: var(--serif);
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--linen);
+            line-height: 1.4;
+        }
+
+        .about-body {
+            font-size: 14px;
+            color: var(--stone);
+            line-height: 1.9;
+        }
+
+        .about-body p+p {
+            margin-top: 16px;
+        }
+
+        .about-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .stat-item {}
+
+        .stat-num {
+            font-family: var(--display);
+            font-size: 36px;
+            color: var(--terra);
+            letter-spacing: 0.04em;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+
+        /* Work section */
+        .work-section {
+            padding: 120px 60px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 64px;
+        }
+
+        .section-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: var(--display);
+            font-size: clamp(28px, 3.5vw, 44px);
+            color: var(--umber);
+            letter-spacing: 0.04em;
+            font-weight: 400;
+        }
+
+        .section-link {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.2s;
+        }
+
+        .section-link:hover {
+            color: var(--sienna);
+        }
+
+        .section-link::after {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 0.5px;
+            background: currentColor;
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+
+        .work-item.active-case {
+            outline: 1.5px solid var(--terra);
+        }
+
+        .work-item {
+            position: relative;
+            overflow: hidden;
+            cursor: none;
+            isolation: isolate;
+            z-index: 1;
+        }
+
+        .work-item .work-thumb,
+        .work-item .work-overlay,
+        .work-item .work-meta,
+        .work-item img,
+        .work-item svg {
+            pointer-events: none;
+        }
+
+        .work-item:first-child {
+            grid-row: span 2;
+        }
+
+        .work-thumb {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: var(--linen2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .work-item:first-child .work-thumb {
+            aspect-ratio: unset;
+            height: 100%;
+        }
+
+        .work-thumb-pattern {
+            position: absolute;
+            inset: 0;
+            transition: opacity 0.4s;
+        }
+
+        .work-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .work-item:hover .work-thumb {
+            transform: scale(1.03);
+        }
+
+        .work-overlay {
+            position: absolute;
+            inset: 0;
+            background: var(--umber);
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 32px;
+        }
+
+        .work-item:hover .work-overlay {
+            opacity: 0.88;
+        }
+
+        .work-overlay-cat {
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 8px;
+        }
+
+        .work-overlay-title {
+            font-family: var(--serif);
+            font-size: 22px;
+            font-style: italic;
+            color: var(--linen);
+            margin-bottom: 4px;
+        }
+
+        .work-overlay-sub {
+            font-size: 12px;
+            color: var(--stone);
+        }
+
+        .work-meta {
+            padding: 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .work-meta-title {
+            font-size: 13px;
+            color: var(--umber);
+            font-weight: 400;
+        }
+
+        .work-meta-year {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 13px;
+            color: var(--stone);
+        }
+
+        /* Pattern fills for work items */
+        .p1 {
+            background: var(--linen2);
+        }
+
+        .p1::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(0deg, var(--terra) 0, var(--terra) 0.5px, transparent 0, transparent 28px);
+            opacity: 0.15;
+        }
+
+        .p2 {
+            background: #EDE0D8;
+        }
+
+        .p2::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(90deg, var(--sienna) 0, var(--sienna) 0.5px, transparent 0, transparent 20px);
+            opacity: 0.12;
+        }
+
+        .p3 {
+            background: #E8D8CE;
+        }
+
+        .p3::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(45deg, var(--umber) 0, var(--umber) 0.5px, transparent 0, transparent 16px),
+                repeating-linear-gradient(-45deg, var(--umber) 0, var(--umber) 0.5px, transparent 0, transparent 16px);
+            opacity: 0.08;
+        }
+
+        .p4 {
+            background: #F2E6DF;
+        }
+
+        .p4::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, var(--terra) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.18;
+        }
+
+        /* ABIL Boulevard carousel */
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 92vh;
+            object-fit: contain;
+            display: block;
+            box-shadow: 0 8px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+            font-family: var(--sans);
+            letter-spacing: 0.05em;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+        .blvd-carousel-section {
+            padding: 60px 0 40px;
+        }
+
+        .blvd-carousel-label {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--terra);
+            padding: 0 60px;
+            margin-bottom: 20px;
+        }
+
+        .blvd-carousel-wrap {
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .blvd-carousel-wrap.dragging {
+            cursor: grabbing;
+        }
+
+        .blvd-carousel-track {
+            display: flex;
+            gap: 3px;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
+            align-items: flex-start;
+        }
+
+        .blvd-carousel-track>img,
+        .blvd-img-wrap img {
+            flex: 0 0 auto;
+            width: auto;
+            height: 55vh;
+            max-height: 560px;
+            max-width: 85vw;
+            object-fit: contain;
+            display: block;
+        }
+
+        .blvd-carousel-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 60px 0;
+        }
+
+        .blvd-carousel-btn {
+            background: none;
+            border: 1px solid var(--linen2);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .blvd-carousel-btn:hover {
+            border-color: var(--terra);
+            background: var(--off-white);
+        }
+
+        .blvd-carousel-counter {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            color: var(--ink60);
+        }
+
+        .blvd-img-wrap {
+            position: relative;
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: flex-start;
+        }
+
+        .blvd-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.80) 0%, transparent 100%);
+            padding: 40px 24px 20px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .blvd-img-wrap:hover .blvd-caption {
+            opacity: 1;
+        }
+
+        .blvd-caption p {
+            font-family: var(--sans);
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .blvd-caption strong {
+            display: block;
+            font-size: 14px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        /* Lightbox caption */
+        .lightbox-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.80) 0%, transparent 100%);
+            padding: 48px 40px 28px;
+            pointer-events: none;
+        }
+
+        .lightbox-caption p {
+            font-family: var(--sans);
+            font-size: 15px;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .lightbox-caption strong {
+            display: block;
+            font-size: 16px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .case-study {
+            display: none;
+            grid-column: 1 / -1;
+            background: var(--off-white);
+            border-top: 0.5px solid var(--linen2);
+            animation: caseIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        .case-study.open {
+            display: grid;
+            grid-column: 1 / -1;
+            grid-template-columns: 1fr;
+        }
+
+        @keyframes caseIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cs-header {
+            padding: 80px 60px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            border-bottom: 0.5px solid var(--linen2);
+            position: relative;
+        }
+
+        .cs-close {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+            background: none;
+            border: 0.5px solid var(--linen2);
+            cursor: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .cs-close:hover {
+            color: var(--sienna);
+            border-color: var(--terra);
+        }
+
+        .cs-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 16px;
+        }
+
+        .cs-title {
+            font-family: var(--serif);
+            font-size: clamp(26px, 3vw, 42px);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--umber);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .cs-subtitle {
+            font-size: 13px;
+            color: var(--stone-dark);
+            line-height: 1.9;
+            margin-bottom: 28px;
+        }
+
+        .cs-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cs-tag {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border: 0.5px solid var(--terra);
+            color: var(--sienna);
+            border-radius: 20px;
+        }
+
+        .cs-brief {
+            padding-top: 8px;
+        }
+
+        .cs-brief-label {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--stone);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 0.5px solid var(--linen2);
+        }
+
+        .cs-brief p {
+            font-size: 14px;
+            color: var(--stone-dark);
+            line-height: 1.95;
+            margin-bottom: 16px;
+        }
+
+        .cs-brief p:last-child {
+            margin-bottom: 0;
+        }
+
+        .cs-brief em {
+            color: var(--sienna);
+            font-style: italic;
+        }
+
+        .cs-images {
+            border-top: 0.5px solid var(--linen2);
+        }
+
+        .cs-spread {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 70vh;
+            border-bottom: 0.5px solid var(--linen2);
+        }
+
+        .cs-spread.full {
+            grid-template-columns: 1fr;
+        }
+
+        .cs-img-pane {
+            background: var(--linen2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cs-img-pane img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .cs-img-pane:hover img {
+            transform: scale(1.03);
+        }
+
+        .cs-caption-pane {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--off-white);
+        }
+
+        .cs-caption-num {
+            font-family: var(--serif);
+            font-size: 11px;
+            font-style: italic;
+            color: var(--terra);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .cs-caption-title {
+            font-family: var(--display);
+            font-size: 18px;
+            letter-spacing: 0.06em;
+            color: var(--umber);
+            margin-bottom: 16px;
+        }
+
+        .cs-caption-body {
+            font-size: 14px;
+            color: var(--stone-dark);
+            line-height: 1.9;
+        }
+
+        .cs-note {
+            padding: 60px;
+            background: var(--linen);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .cs-note-label {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+        }
+
+        .cs-note-text {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-style: italic;
+            color: var(--sienna);
+            line-height: 1.7;
+        }
+
+        /* Disciplines */
+        .disciplines {
+            padding: 100px 60px;
+            background: var(--linen);
+        }
+
+        .disciplines-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            margin-top: 64px;
+            background: var(--linen2);
+        }
+
+        .discipline-item {
+            background: var(--linen);
+            padding: 48px 36px;
+            transition: background 0.3s;
+        }
+
+        .discipline-item:hover {
+            background: var(--off-white);
+        }
+
+        .discipline-item {
+            cursor: pointer;
+            transition: background 0.3s, opacity 0.3s, outline 0.3s;
+        }
+
+        .discipline-item.active {
+            background: var(--off-white);
+            outline: 1px solid var(--terra);
+        }
+
+        .discipline-item.dimmed {
+            opacity: 0.35;
+        }
+
+        .discipline-cta {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            color: var(--terra);
+            margin-top: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-transform: uppercase;
+        }
+
+        .discipline-item:hover .discipline-cta,
+        .discipline-item.active .discipline-cta {
+            opacity: 1;
+        }
+
+        .work-item {
+            transition: opacity 0.4s, transform 0.4s;
+        }
+
+        .work-item.filtered-out {
+            display: none;
+        }
+
+        .work-grid {
+            transition: all 0.4s;
+        }
+
+        .work-section-filter-label {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--terra);
+            padding: 0 40px;
+            margin-bottom: -16px;
+            display: none;
+        }
+
+        .work-section-filter-label.visible {
+            display: block;
+        }
+
+        .discipline-num {
+            font-family: var(--serif);
+            font-size: 11px;
+            font-style: italic;
+            color: var(--terra);
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .discipline-name {
+            font-family: var(--display);
+            font-size: 16px;
+            letter-spacing: 0.08em;
+            color: var(--umber);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .discipline-desc {
+            font-size: 13px;
+            color: var(--stone-dark);
+            line-height: 1.8;
+        }
+
+        /* Identity strip */
+        .identity-strip {
+            padding: 100px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .identity-left {}
+
+        .identity-quote {
+            font-family: var(--serif);
+            font-size: clamp(22px, 3vw, 34px);
+            font-style: italic;
+            color: var(--umber);
+            line-height: 1.5;
+            margin-bottom: 32px;
+        }
+
+        .identity-quote em {
+            color: var(--sienna);
+            font-style: normal;
+        }
+
+        .identity-attr {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--stone);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .identity-attr::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 0.5px;
+            background: var(--terra);
+        }
+
+        .identity-right {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--linen2);
+        }
+
+        .id-cell {
+            background: var(--off-white);
+            padding: 28px 24px;
+        }
+
+        .id-cell-label {
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 8px;
+        }
+
+        .id-cell-value {
+            font-family: var(--serif);
+            font-size: 15px;
+            color: var(--umber);
+            line-height: 1.5;
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--umber);
+            padding: 120px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: end;
+        }
+
+        .contact-heading {
+            font-family: var(--display);
+            font-size: clamp(36px, 5vw, 64px);
+            color: var(--linen);
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+            font-weight: 400;
+        }
+
+        .contact-heading span {
+            display: block;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 0.6em;
+            color: var(--terra);
+            letter-spacing: 0.02em;
+        }
+
+        .contact-right {}
+
+        .contact-body {
+            font-size: 14px;
+            color: var(--stone);
+            line-height: 1.9;
+            margin-bottom: 40px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--linen);
+            text-decoration: none;
+            transition: gap 0.3s;
+        }
+
+        .contact-link:hover {
+            gap: 28px;
+        }
+
+        .contact-link-line {
+            width: 32px;
+            height: 0.5px;
+            background: var(--terra);
+            transition: width 0.3s;
+        }
+
+        .contact-link:hover .contact-link-line {
+            width: 48px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--ink);
+            padding: 32px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: var(--display);
+            font-size: 13px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: var(--stone-dark);
+            letter-spacing: 0.08em;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scaleY(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1.3);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <nav>
+        <a href="#" class="nav-logo">Atelier ASK</a>
+        <ul class="nav-links">
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#disciplines">Craft</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-left">
+            <p class="hero-eyebrow">Graphic & Visual Designer</p>
+            <h1 class="hero-name">Aryaman<br>Suresh Kaushik</h1>
+            <p class="hero-title-line">ABIL Group, Pune · M.Des, Florence</p>
+            <p class="hero-desc">Luxury spaces, made visible. Design at the intersection of Florentine craft and
+                contemporary Indian scale.</p>
+            <a href="#work" class="hero-cta">
+                <span class="hero-cta-line"></span>
+                View selected work
+            </a>
+        </div>
+        <div class="hero-right" id="hero-slideshow">
+            <div class="hero-image-block">
+
+                <div class="hero-slide active" data-project="magazine">
+                    <img src="images/magazine-spread-01.png" alt="The Magazine That Didn't Sell Anything">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Editorial Design · Private Commission</p>
+                        <p class="hero-slide-label-title">The Magazine That Didn't Sell Anything</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+                <div class="hero-slide" data-project="signage">
+                    <img src="images/versace-signage-01.jpg" alt="The Mansion by ABIL">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Signage Identity · Ultra Luxury Residential</p>
+                        <p class="hero-slide-label-title">The Mansion by ABIL</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+                <div class="hero-slide" data-project="spaceman">
+                    <img src="images/spaceman-01.png" alt="Spaceman Cup">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Product Design · Personal Work</p>
+                        <p class="hero-slide-label-title">Spaceman Cup</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+                <div class="hero-slide" data-project="calendar">
+                    <img src="images/calendar-03.jpg" alt="My Life Calendar">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Personal Work · Print</p>
+                        <p class="hero-slide-label-title">My Life Calendar</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+                <div class="hero-slide" data-project="oliva">
+                    <img src="images/oliva-02.png" alt="Oliva Olio">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Product Design · Personal Work</p>
+                        <p class="hero-slide-label-title">Oliva Olio</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+                <div class="hero-slide" data-project="luma">
+                    <img src="images/luma-page-02.jpg" alt="L.U.M.A.">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Brand Identity · IFP Finalist</p>
+                        <p class="hero-slide-label-title">L.U.M.A. — Let Us Milk Alternatively</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+                <div class="hero-slide" data-project="abil-boulevard">
+                    <img src="images/boulevards/lobby/DSC05064.JPG" alt="ABIL Boulevard">
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-slide-label">
+                        <p class="hero-slide-label-cat">Spatial Graphics · End-to-End Signage</p>
+                        <p class="hero-slide-label-title">ABIL Boulevard, Koregaon Park</p>
+                    </div>
+                    <p class="hero-slide-hint">Click to explore →</p>
+                </div>
+
+            </div>
+
+            <div class="hero-dots" id="hero-dots">
+                <div class="hero-dot active" data-index="0"></div>
+                <div class="hero-dot" data-index="1"></div>
+                <div class="hero-dot" data-index="2"></div>
+                <div class="hero-dot" data-index="3"></div>
+                <div class="hero-dot" data-index="4"></div>
+                <div class="hero-dot" data-index="5"></div>
+                <div class="hero-dot" data-index="6"></div>
+            </div>
+
+            <div class="hero-counter">
+                <strong>07</strong>
+                Selected works
+            </div>
+        </div>
+    </section>
+
+    <!-- About strip -->
+    <section class="about-strip reveal" id="about">
+        <div>
+            <p class="about-label">About</p>
+            <h2 class="about-heading">Where discipline meets<br>the sensory.</h2>
+        </div>
+        <div class="about-body">
+            <p>Graphic and Visual Designer at ABIL Group, Pune — one of Maharashtra's foremost luxury real estate
+                developers. Working across brand identity, campaign design, spatial graphics, and visual communication
+                for residential and commercial properties at the highest tier of the market.</p>
+            <p>Master's in Industrial Design from Florence Design Academy. Trained to read objects, spaces, and systems
+                — not just surfaces. That education informs every brief: the proportions, the materiality, the negative
+                space.</p>
+        </div>
+
+    </section>
+
+    <section class="disciplines reveal" id="disciplines">
+        <div class="section-header" style="margin-bottom:0;">
+            <div>
+                <p class="section-eyebrow">Craft</p>
+                <h2 class="section-title">Disciplines</h2>
+            </div>
+        </div>
+        <div class="disciplines-grid">
+            <div class="discipline-item" data-filter="brand-identity">
+                <span class="discipline-num">01</span>
+                <p class="discipline-name">Brand Identity</p>
+                <p class="discipline-desc">Complete visual systems for luxury residential and commercial developments —
+                    from mark-making to brand standards.</p>
+                <p class="discipline-cta">View projects →</p>
+            </div>
+            <div class="discipline-item" data-filter="visual-design">
+                <span class="discipline-num">02</span>
+                <p class="discipline-name">Visual Design</p>
+                <p class="discipline-desc">Campaign art direction, digital and print. Material and colour direction for
+                    property launches.</p>
+                <p class="discipline-cta">View projects →</p>
+            </div>
+            <div class="discipline-item" data-filter="industrial-design">
+                <span class="discipline-num">03</span>
+                <p class="discipline-name">Industrial Design</p>
+                <p class="discipline-desc">Object thinking applied to communication — materiality, form, and system
+                    logic drawn from a Florentine education.</p>
+                <p class="discipline-cta">View projects →</p>
+            </div>
+            <div class="discipline-item" data-filter="spatial-graphics">
+                <span class="discipline-num">04</span>
+                <p class="discipline-name">Spatial Graphics</p>
+                <p class="discipline-desc">Wayfinding, environmental branding, and signage systems for large-scale
+                    residential towers and amenity spaces.</p>
+                <p class="discipline-cta">View projects →</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work -->
+    <section class="work-section reveal" id="work">
+        <div class="section-header">
+            <div>
+                <p class="section-eyebrow">Selected work</p>
+                <h2 class="section-title">Recent projects</h2>
+            </div>
+            <a href="#" class="section-link">View all</a>
+        </div>
+        <p class="work-section-filter-label" id="filter-label"></p>
+        <div class="work-grid">
+            <div class="work-item" id="wi-magazine" data-discipline="brand-identity visual-design">
+                <div class="work-thumb p1" style="height:100%;min-height:480px;position:relative;">
+                    <img src="images/magazine-spread-01.png" alt="The Magazine That Didn't Sell Anything">
+                    <svg style="position:absolute;inset:0;" width="100%" height="100%" viewBox="0 0 400 600"
+                        preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                        <rect x="40" y="60" width="280" height="360" fill="none" stroke="#993C1D" stroke-width="0.5" />
+                        <text x="200" y="280" font-family="'EB Garamond',serif" font-size="20" fill="#993C1D"
+                            text-anchor="middle" font-style="italic" opacity="0.2">The Magazine</text>
+                    </svg>
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Editorial Design · Private Commission</p>
+                    <p class="work-overlay-title">The Magazine That Didn't Sell Anything</p>
+                    <p class="work-overlay-sub">Bespoke publication · UHNI gift · 2024</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">The Magazine That Didn't Sell Anything</span>
+                    <span class="work-meta-year">2024</span>
+                </div>
+            </div>
+
+            <!-- Case study: Magazine -->
+            <div class="case-study" id="cs-magazine">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Editorial Design · Private Commission</p>
+                        <h2 class="cs-title">The Magazine That Didn't Sell Anything</h2>
+                        <p class="cs-subtitle">A privately commissioned birthday gift for an UHNI — a fully realised
+                            editorial publication that behaves like a real magazine. Only on closer inspection does its
+                            true nature reveal itself.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Editorial Design</span>
+                            <span class="cs-tag">Art Direction</span>
+                            <span class="cs-tag">Print</span>
+                            <span class="cs-tag">Private Commission</span>
+                            <span class="cs-tag">2024</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">Project notes</p>
+                        <p>This project reimagines what a magazine can be when it stops trying to sell — and starts
+                            reflecting. Conceived as a fully realised editorial publication, it mirrors the visual
+                            language, pacing, and density of a luxury lifestyle title.</p>
+                        <p>To avoid the common pitfall of custom publications feeling thin or novelty-driven, the
+                            magazine was structured with the same rigour as a mainstream editorial product: full-length
+                            features, short-form articles, branded editorial spreads styled as advertisements, and a
+                            deliberate mix of storytelling, imagery, and design-led pages.</p>
+                        <p>The brands chosen in the visuals were products consumed by the gift's receiver on a
+                            day-to-day basis — <em>breaking away from being aspirational, and turning into a moodboard
+                                of her own wardrobe.</em> Instead of introducing aspiration, it documents it.</p>
+                        <p>The success of this project lies in subtlety. It doesn't announce itself as a personalised
+                            object. It behaves like a real magazine: complete, layered, and immersive.</p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'magazine')">Close ✕</button>
+                </div>
+
+                <div class="cs-images">
+
+                    <!-- Spread 1 -->
+                    <div class="cs-spread full" style="min-height:85vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/magazine-spread-01.png"
+                                alt="The Magazine That Didn't Sell Anything — Spread 01">
+                        </div>
+                    </div>
+
+                    <!-- Spread 2 -->
+                    <div class="cs-spread full" style="min-height:85vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/magazine-spread-02.png"
+                                alt="The Magazine That Didn't Sell Anything — Spread 02">
+                        </div>
+                    </div>
+
+                    <!-- Spread 3 -->
+                    <div class="cs-spread full" style="min-height:85vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/magazine-spread-03.png"
+                                alt="The Magazine That Didn't Sell Anything — Spread 03">
+                        </div>
+                    </div>
+
+                    <!-- Spread 4 -->
+                    <div class="cs-spread full" style="min-height:85vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/magazine-spread-04.png"
+                                alt="The Magazine That Didn't Sell Anything — Spread 04">
+                        </div>
+                    </div>
+
+                    <!-- Spread 5 -->
+                    <div class="cs-spread full" style="min-height:85vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/magazine-spread-05.png"
+                                alt="The Magazine That Didn't Sell Anything — Spread 05">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cs-note">
+                    <p class="cs-note-label">Notes on documentation</p>
+                    <p class="cs-note-text">Due to the private nature of the project, only select printed spreads have
+                        been documented and shared here. These snippets focus on layout, materiality, and editorial
+                        structure.</p>
+                </div>
+
+            </div>
+            <!-- ABIL Boulevard work card -->
+            <div class="work-item" id="wi-abil-boulevard" data-discipline="spatial-graphics brand-identity">
+                <div class="work-thumb" style="height:100%;min-height:480px;position:relative;overflow:hidden;">
+                    <img src="images/boulevards/lobby/DSC05064.JPG" alt="ABIL Boulevard, Koregaon Park">
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Spatial Graphics · End-to-End Signage</p>
+                    <p class="work-overlay-title">ABIL Boulevard</p>
+                    <p class="work-overlay-sub">Koregaon Park, Pune · Commercial · Ongoing</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">ABIL Boulevard — Signage Identity</span>
+                    <span class="work-meta-year">ABIL Group</span>
+                </div>
+            </div>
+
+            <div class="work-item" id="wi-signage" data-discipline="brand-identity spatial-graphics">
+                <div class="work-thumb" style="height:100%;min-height:480px;position:relative;overflow:hidden;">
+                    <img src="images/versace-signage-01.jpg" alt="The Mansion by ABIL">
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Signage Identity · Ultra Luxury Residential</p>
+                    <p class="work-overlay-title">The Mansion by ABIL</p>
+                    <p class="work-overlay-sub">Entrance · Lobby · Experiential touchpoints · Ongoing</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">The Mansion by ABIL — Signage Identity</span>
+                    <span class="work-meta-year">Ongoing</span>
+                </div>
+            </div>
+
+            <div class="case-study" id="cs-signage">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Signage Identity · Ultra Luxury Residential</p>
+                        <h2 class="cs-title">The Mansion by ABIL</h2>
+                        <p class="cs-subtitle">A complete signage identity for The Mansion by ABIL — a development of
+                            only twelve residences, where the built environment demanded a typographic and material
+                            language worthy of the Versace Home collaboration.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Signage Identity</span>
+                            <span class="cs-tag">Environmental Graphics</span>
+                            <span class="cs-tag">Ultra Luxury Residential</span>
+                            <span class="cs-tag">Materiality</span>
+                            <span class="cs-tag">Versace Home</span>
+                            <span class="cs-tag">Ongoing</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">Project scope</p>
+                        <p>The Mansion by ABIL is among the most rarefied residential addresses in Mumbai — twelve
+                            residences, each positioned at the apex of the luxury market. The signage brief demanded
+                            more than wayfinding: it required a fully considered identity in three dimensions.</p>
+                        <p>Currently completed: main entrance signage, lobby signage, and the primary experiential
+                            touchpoints that establish the development's material register from the moment of arrival.
+                            Back-of-house and service signage systems remain under development.</p>
+                        <p><em>Exclusivity · Materiality · Craftsmanship · Spatial harmony · Quiet authority.</em></p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'signage')">Close ✕</button>
+                </div>
+                <div class="cs-images">
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-01.jpg" alt="The Mansion by ABIL — Image 01">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-02.jpg" alt="The Mansion by ABIL — Image 02">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-03.jpg" alt="The Mansion by ABIL — Image 03">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-04.jpg" alt="The Mansion by ABIL — Image 04">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-05.jpg" alt="The Mansion by ABIL — Image 05">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-06.jpg" alt="The Mansion by ABIL — Image 06">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/versace-signage-07.jpg" alt="The Mansion by ABIL — Image 07">
+                        </div>
+                    </div>
+                </div>
+                <div class="cs-note">
+                    <p class="cs-note-label">Scope</p>
+                    <p class="cs-note-text">Main entrance signage · Lobby signage · Primary experiential touchpoints.
+                        Back-of-house and service signage identity under development.</p>
+                </div>
+            </div>
+
+            <!-- LUMA work card -->
+            <div class="work-item" id="wi-luma" data-discipline="brand-identity visual-design">
+                <div class="work-thumb"
+                    style="height:100%;min-height:480px;position:relative;overflow:hidden;background:#e8f5ec;">
+                    <img src="images/luma-page-02.jpg" alt="L.U.M.A." style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Brand Identity · Design Competition · IFP Finalist</p>
+                    <p class="work-overlay-title">L.U.M.A.</p>
+                    <p class="work-overlay-sub">Let Us Milk Alternatively · 50-hour challenge</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">L.U.M.A. — Brand Identity</span>
+                    <span class="work-meta-year">IFP 2025</span>
+                </div>
+            </div>
+
+            <!-- Spaceman Cup work card -->
+            <div class="work-item" id="wi-spaceman" data-discipline="industrial-design">
+                <div class="work-thumb" style="height:100%;min-height:480px;position:relative;overflow:hidden;">
+                    <img src="images/spaceman-01.png" alt="Spaceman Cup">
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Product Design · Personal Work</p>
+                    <p class="work-overlay-title">Spaceman Cup</p>
+                    <p class="work-overlay-sub">Ceramic · Concept · Object design</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">Spaceman Cup — Product Design</span>
+                    <span class="work-meta-year">Personal</span>
+                </div>
+            </div>
+
+            <!-- Case study: Spaceman Cup -->
+            <div class="case-study" id="cs-spaceman">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Product Design · Personal Work</p>
+                        <h2 class="cs-title">Spaceman Cup</h2>
+                        <p class="cs-subtitle">A ceramic cup conceived around the idea that an everyday object should do
+                            more than function — it should make its surroundings more interesting simply by existing
+                            within them.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Product Design</span>
+                            <span class="cs-tag">Object Design</span>
+                            <span class="cs-tag">Ceramic</span>
+                            <span class="cs-tag">Personal Work</span>
+                            <span class="cs-tag">Concept</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">Concept</p>
+                        <p>The Spaceman Cup began with a single question: what happens when you remove the assumption
+                            that a cup needs to look like one? The brief was self-imposed — an exercise in designing an
+                            object that draws inspiration from its user on an everyday basis, rather than fading into
+                            the background of a desk or shelf.</p>
+                        <p>The cups have been designed with stackability in mind — indents along the handles lock each
+                            cup securely into the one below, holding it safely elevated above the surface. The sense of
+                            suspension it creates is not accidental. It is the whole point.</p>
+                        <p><em>Playfulness is a design value. This cup argues the case for it.</em></p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'spaceman')">Close ✕</button>
+                </div>
+                <div class="cs-images">
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane"><img src="images/spaceman-01.png" alt="Spaceman Cup — full view"></div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 40px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif; font-size:clamp(1.25rem,2vw,1.6rem); line-height:1.7; color:var(--ink); font-style:italic;">
+                                The coolest cup you'll come across.</p>
+                            <p
+                                style="font-family:'DM Sans',sans-serif; font-size:0.92rem; line-height:1.8; color:var(--ink60); margin-top:1.2rem;">
+                                Created with playfulness in mind, the Spaceman Cup aims to turn its surroundings more
+                                interesting with its presence. At its very core, it serves to draw inspiration from — on
+                                an everyday basis.</p>
+                        </div>
+                    </div>
+                    <div class="cs-spread"
+                        style="min-height:70vh; display:grid; grid-template-columns:1fr 1fr; gap:3px;">
+                        <div class="cs-img-pane"><img src="images/spaceman-02.jpg" alt="Spaceman Cup — detail 02"></div>
+                        <div class="cs-img-pane"><img src="images/spaceman-03.jpg" alt="Spaceman Cup — detail 03"></div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 40px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif; font-size:0.92rem; line-height:1.8; color:var(--ink60);">
+                                The cups have been designed with stackability in mind — indents along the handles lock
+                                each cup securely into the one below, holding it safely elevated above the surface. The
+                                sense of suspension it creates is not accidental. It is the whole point.</p>
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane"><img src="images/spaceman-04.jpg" alt="Spaceman Cup — in situ 04">
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 40px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif; font-size:clamp(1.1rem,1.8vw,1.4rem); line-height:1.75; color:var(--ink); font-style:italic;">
+                                It breaks the very notion of a cup — creating a surreal sense of levitation with
+                                stability.</p>
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane"><img src="images/spaceman-05.jpg" alt="Spaceman Cup — in situ 05">
+                        </div>
+                    </div>
+                </div>
+                <div class="cs-note">
+                    <p class="cs-note-label">On personal work</p>
+                    <p class="cs-note-text">The Spaceman Cup is a personal project — designed, conceived, and documented
+                        independently of client work.</p>
+                </div>
+            </div>
+
+            <!-- Oliva Olio work card -->
+            <div class="work-item" id="wi-oliva" data-discipline="industrial-design">
+                <div class="work-thumb"
+                    style="height:100%;min-height:480px;position:relative;overflow:hidden;background:#e8e4de;display:flex;align-items:center;justify-content:center;">
+                    <img src="images/oliva-02.png" alt="Oliva Olio"
+                        style="max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain;">
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Product Design · Personal Work</p>
+                    <p class="work-overlay-title">Oliva Olio</p>
+                    <p class="work-overlay-sub">Glass · Oil dispensers · Object design</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">Oliva Olio — Product Design</span>
+                    <span class="work-meta-year">Personal</span>
+                </div>
+            </div>
+
+            <!-- Case study: Oliva Olio -->
+            <div class="case-study" id="cs-oliva">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Product Design · Personal Work</p>
+                        <h2 class="cs-title">Oliva Olio</h2>
+                        <p class="cs-subtitle">Aesthetic cooking oil dispensers. Some class glass.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Product Design</span>
+                            <span class="cs-tag">Object Design</span>
+                            <span class="cs-tag">Glass</span>
+                            <span class="cs-tag">Personal Work</span>
+                            <span class="cs-tag">Concept</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">Concept</p>
+                        <p>The idea is to have the seeds or nuts the oil is extracted from displayed alongside the oil
+                            itself. The oil holder simply lifts off the glass base when used — creating an experience
+                            like no other.</p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'oliva')">Close ✕</button>
+                </div>
+                <div class="cs-images">
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; align-items:center; background:var(--off-white);">
+                        <img src="images/oliva-02.png" alt="Oliva Olio — Hero"
+                            style="max-height:80vh; width:auto; max-width:90%; display:block; object-fit:contain;">
+                    </div>
+                    <div class="cs-spread"
+                        style="min-height:70vh; display:grid; grid-template-columns:1fr 1fr; gap:3px;">
+                        <div class="cs-img-pane"><img src="images/oliva-01.jpg" alt="Oliva Olio — Sketch"></div>
+                        <div class="cs-img-pane"><img src="images/oliva-03.png" alt="Oliva Olio — Detail 03"></div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 40px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif; font-size:clamp(1.1rem,1.8vw,1.4rem); line-height:1.75; color:var(--ink); font-style:italic;">
+                                I would've loved to make versions with sunflower seeds, groundnuts, and small pieces of
+                                coconut.</p>
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane"><img src="images/oliva-04.png" alt="Oliva Olio — Detail 04"></div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 40px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif; font-size:0.92rem; line-height:1.8; color:var(--ink60);">
+                                An entire collection of different oils in these containers atop a kitchen countertop
+                                will be a reality soon.</p>
+                        </div>
+                    </div>
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane"><img src="images/oliva-05.png" alt="Oliva Olio — Detail 05"></div>
+                    </div>
+                </div>
+                <div class="cs-note">
+                    <p class="cs-note-label">On personal work</p>
+                    <p class="cs-note-text">Oliva Olio is a personal concept project — designed and documented
+                        independently.</p>
+                </div>
+            </div>
+            <div class="work-item" id="wi-calendar" data-discipline="visual-design">
+                <div class="work-thumb" style="height:100%;min-height:480px;position:relative;overflow:hidden;">
+                    <img src="images/calendar-03.jpg" alt="My Life Calendar">
+                </div>
+                <div class="work-overlay">
+                    <p class="work-overlay-cat">Personal Work · Print</p>
+                    <p class="work-overlay-title">My Life Calendar</p>
+                    <p class="work-overlay-sub">A2 print · Mortality · Personal artifact</p>
+                </div>
+                <div class="work-meta">
+                    <span class="work-meta-title">My Life Calendar — Personal Work</span>
+                    <span class="work-meta-year">Personal</span>
+                </div>
+            </div>
+
+            <!-- Case study: Life Calendar -->
+            <div class="case-study" id="cs-calendar">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Personal Work · Print</p>
+                        <h2 class="cs-title">My Life Calendar</h2>
+                        <p class="cs-subtitle">My time remaining alive, in one quick glance.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Personal Work</span>
+                            <span class="cs-tag">Print</span>
+                            <span class="cs-tag">A2</span>
+                            <span class="cs-tag">Concept</span>
+                            <span class="cs-tag">Artifact</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">Origin</p>
+                        <p>It all began when I purchased my first iPhone. The Calendar app lets you zoom out and see any
+                            year at a glance — and that got me thinking about how short a year really is. We make it out
+                            to be this grand, unending affair. But it's really just as many days as there are numbers on
+                            a small black screen.</p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'calendar')">Close ✕</button>
+                </div>
+
+                <div class="cs-images">
+
+                    <!-- Image 01 — iPhone screenshot, enlarged -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding: 80px 0; display:flex; justify-content:center; align-items:center; background: var(--off-white);">
+                        <img src="images/calendar-01.png" alt="My Life Calendar — iPhone Screenshot"
+                            style="width:340px; height:auto; display:block; box-shadow: 0 16px 60px rgba(0,0,0,0.18);">
+                    </div>
+
+                    <!-- Interlaced copy 01 -->
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 40px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif; font-size:0.92rem; line-height:1.8; color:var(--ink60);">
+                                The next step was inevitable: screenshot every year of the next three-quarters of a
+                                century — an optimistic life expectancy — and stitch them together. Printed on A2, black
+                                background (which, it turns out, produces a wet sheet), and put up on the wall.
+                            </p>
+                            <p
+                                style="font-family:'DM Sans',sans-serif; font-size:0.92rem; line-height:1.8; color:var(--ink60); margin-top:1.2rem;">
+                                Somewhere among these numbers lies a date on which I will get married, lose people dear
+                                to me, and — if the universe wills it — die. They're all right in front of me. Each and
+                                every day going forward.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Image 02 — full artwork -->
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/calendar-02.jpg" alt="My Life Calendar — Full Artwork">
+                        </div>
+                    </div>
+
+                    <!-- Interlaced copy 02 — closing statement -->
+                    <div class="cs-spread full" style="min-height:auto; padding: 80px 0 80px;">
+                        <div style="max-width:560px; margin: 0 auto; padding: 0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif; font-size:clamp(1.1rem,1.8vw,1.4rem); line-height:1.75; color:var(--ink); font-style:italic;">
+                                I hope more people print this out and glance at it from time to time. I do believe this
+                                might be my first true piece of art.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Image 03 — framed print on wall -->
+                    <div class="cs-spread full" style="min-height:90vh;">
+                        <div class="cs-img-pane">
+                            <img src="images/calendar-03.jpg" alt="My Life Calendar — Framed">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cs-note">
+                    <p class="cs-note-label">On personal work</p>
+                    <p class="cs-note-text">My Life Calendar is a personal project — conceived, designed, and printed
+                        independently. A PDF is available for anyone who wants to print their own.</p>
+                </div>
+
+            </div>
+
+
+            <!-- Case study: LUMA -->
+            <div class="case-study" id="cs-luma">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Brand Identity · Design Competition · IFP Finalist</p>
+                        <h2 class="cs-title">L.U.M.A.</h2>
+                        <p class="cs-subtitle">Let Us Milk Alternatively. A complete brand identity conceived, designed,
+                            and presented in 50 hours — for a fictional character who quit dairy and started a
+                            revolution.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Brand Identity</span>
+                            <span class="cs-tag">Packaging</span>
+                            <span class="cs-tag">Visual Design</span>
+                            <span class="cs-tag">IFP Finalist</span>
+                            <span class="cs-tag">50-hour Challenge</span>
+                            <span class="cs-tag">Plant-based</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">The Brief</p>
+                        <p>IFP's brief: if a fictional character owned a brand, what would it be? The answer felt
+                            immediately obvious — Amulya, the Amul girl. India's most beloved dairy mascot, reimagined
+                            as someone who discovers the horrors of the industry she built, quits on the spot, and
+                            starts something better.</p>
+                        <p>LUMA — Let Us Milk Alternatively — is her plant-based milk company. The brand refuses to
+                            attack dairy directly; it simply offers a kinder choice, when you're ready.</p>
+                        <p>The identity was built entirely within 50 hours. This project earned a finalist position at
+                            IFP — a first competition entry, and a personal milestone.</p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'luma')">Close ✕</button>
+                </div>
+
+                <div class="cs-images">
+
+                    <!-- Spread 01 — Amulya's story -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-03.jpg" alt="L.U.M.A. — Amulya's Story"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Copy 01 -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.7;color:var(--ink);font-style:italic;">
+                                Amulya lived dairy. Until she didn't.
+                            </p>
+                            <p
+                                style="font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.8;color:var(--ink60);margin-top:1.2rem;">
+                                The Amul girl — India's most iconic dairy mascot — goes down a doom-scrolling rabbit
+                                hole, discovers the scale of animal cruelty in the industry she helped build, and makes
+                                a decision with no hesitation whatsoever.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Spread 02 — Storming out of Amul HQ -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-07.jpg" alt="L.U.M.A. — Storming out of Amul"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Copy 02 -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.8;color:var(--ink60);">
+                                The poster child stormed out of work without a moment of hesitation. An idea borne out
+                                of pain formed. "If people need milk, let's give it to them without hurting someone
+                                else."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Spread 03 — LUMA is born -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-10.jpg" alt="L.U.M.A. — LUMA is born"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Copy 03 -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif;font-size:clamp(1.1rem,1.8vw,1.4rem);line-height:1.75;color:var(--ink);font-style:italic;">
+                                "People must make their own choices. All I can do is help them when they're ready."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Spread 04 — The four cartons -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-02.jpg" alt="L.U.M.A. — Product Range"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Copy 04 -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.8;color:var(--ink60);">
+                                Almond. Oat. Coconut. Soy. Four SKUs to launch with — each carrying the same
+                                commitments: guilt-free, dairy-free, cruelty-free, additive-free. The packaging is bold,
+                                plant-forward, and impossible to miss on a shelf.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Spread 05 — Mission -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-12.jpg" alt="L.U.M.A. — Mission"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Copy 05 -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.8;color:var(--ink60);">
+                                The identity runs on two typefaces — Gill Sans Ultra Bold for the loud, confident
+                                energy, and Futura for clean balance. The colour palette is two greens, white, and black
+                                — a direct nod to Amulya's red-green colour blindness. A little-known fact that shaped
+                                the entire visual system.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Spread 06 — Colour palette -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-19.jpg" alt="L.U.M.A. — Colour Palette"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Copy 06 -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'EB Garamond',serif;font-size:clamp(1.1rem,1.8vw,1.4rem);line-height:1.75;color:var(--ink);font-style:italic;">
+                                A little known fact about Amulya: she's red-green colour blind. Hence the simple
+                                two-colour palette at LUMA. The greens are still difficult to tell apart for her — but
+                                hey, that's life.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Spread 07 — Visualisation -->
+                    <div class="cs-spread full"
+                        style="min-height:auto; padding:40px 0; display:flex; justify-content:center; background:var(--off-white);">
+                        <img src="images/luma-page-27.jpg" alt="L.U.M.A. — Visualisation"
+                            style="width:600px; max-width:90%; height:auto; display:block; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+                    </div>
+
+                    <!-- Flipbook section -->
+                    <div class="cs-spread full" style="min-height:auto; padding:80px 0 40px;">
+                        <div style="max-width:560px;margin:0 auto;padding:0 40px;">
+                            <p
+                                style="font-family:'DM Sans',sans-serif;font-size:0.92rem;line-height:1.8;color:var(--ink60);">
+                                The full brand book — all 32 pages — is presented below.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Flipbook viewer -->
+                    <div class="cs-spread full" style="min-height:auto; padding:0 0 80px; background:var(--off-white);">
+                        <div id="luma-flipbook" style="max-width:900px;margin:0 auto;padding:0 40px;">
+                            <div style="position:relative;background:#f5f0ea;border:1px solid var(--linen2);">
+                                <img id="luma-fb-img" src="images/luma-page-01.jpg" alt="L.U.M.A. Brand Book"
+                                    style="width:100%;height:auto;display:block;">
+                                <!-- Prev button -->
+                                <button onclick="lumaFlip(-1)"
+                                    style="position:absolute;left:0;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;width:48px;height:64px;cursor:pointer;font-size:1.2rem;color:var(--ink);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);">&#8592;</button>
+                                <!-- Next button -->
+                                <button onclick="lumaFlip(1)"
+                                    style="position:absolute;right:0;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;width:48px;height:64px;cursor:pointer;font-size:1.2rem;color:var(--ink);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);">&#8594;</button>
+                            </div>
+                            <!-- Page counter and dots -->
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;padding:16px 0 0;">
+                                <span id="luma-fb-counter"
+                                    style="font-family:var(--sans);font-size:11px;letter-spacing:0.12em;color:var(--ink60);text-transform:uppercase;">Page
+                                    1 of 32</span>
+                                <div style="display:flex;gap:6px;align-items:center;">
+                                    <span
+                                        style="font-family:var(--sans);font-size:10px;color:var(--ink60);letter-spacing:0.1em;">Use
+                                        arrow keys to navigate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cs-note">
+                    <p class="cs-note-label">Design competition</p>
+                    <p class="cs-note-text">L.U.M.A. was created for IFP — a 50-hour brand design challenge. Brief: "If
+                        a fictional character owned a brand, what would it be?" This entry earned a finalist position. A
+                        first competition entry, and a deeply personal one.</p>
+                </div>
+
+            </div>
+
+            <!-- Case study: ABIL Boulevard -->
+            <div class="case-study" id="cs-abil-boulevard">
+                <div class="cs-header">
+                    <div>
+                        <p class="cs-eyebrow">Spatial Graphics · End-to-End Signage · Commercial</p>
+                        <h2 class="cs-title">ABIL Boulevard</h2>
+                        <p class="cs-subtitle">A complete signage system designed in-house for ABIL Boulevard — a
+                            premium commercial development in Koregaon Park, Pune's most sought-after CBD. Every sign,
+                            from front-facing identity to back-of-house compliance, conceived and executed in-house.</p>
+                        <div class="cs-tags">
+                            <span class="cs-tag">Spatial Graphics</span>
+                            <span class="cs-tag">Environmental Signage</span>
+                            <span class="cs-tag">Wayfinding</span>
+                            <span class="cs-tag">Commercial</span>
+                            <span class="cs-tag">Koregaon Park</span>
+                            <span class="cs-tag">ABIL Group</span>
+                            <span class="cs-tag">End-to-End</span>
+                        </div>
+                    </div>
+                    <div class="cs-brief">
+                        <p class="cs-brief-label">Project</p>
+                        <p>ABIL Boulevard sits at the heart of Koregaon Park — Pune's most premium address and a rapidly
+                            maturing central business district. The signage brief covered the full spectrum: lobby
+                            identity, lift and level markers, pylons, parking, amenity spaces, compliance, and the finer
+                            details that distinguish a considered environment from a merely finished one.</p>
+                        <p>Every element was designed and delivered in-house.</p>
+                    </div>
+                    <button class="cs-close" onclick="closeCase(event, 'abil-boulevard')">Close ✕</button>
+                </div>
+
+                <div class="cs-images">
+
+                    <!-- Lobby carousel — custom order -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Lobby</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-lobby">
+                                <img src="images/boulevards/lobby/IMG_1889.jpeg" alt="ABIL Boulevard Lobby — Reception">
+                                <img src="images/boulevards/lobby/DSC05064.JPG" alt="ABIL Boulevard Lobby — Concierge">
+                                <img src="images/boulevards/lobby/DSC05067_1.jpg"
+                                    alt="ABIL Boulevard Lobby — Quartz Lounge">
+                                <img src="images/boulevards/lobby/IMG_1853.jpeg"
+                                    alt="ABIL Boulevard Lobby — Girl jumping">
+                                <img src="images/boulevards/lobby/IMG_1914.jpeg" alt="ABIL Boulevard Lobby — Turnstile">
+                                <img src="images/boulevards/lobby/IMG_1893.jpeg"
+                                    alt="ABIL Boulevard Lobby — Elevator bay">
+                                <img src="images/boulevards/lobby/IMG_1850.jpeg"
+                                    alt="ABIL Boulevard Lobby — Elevator closeup">
+                                <img src="images/boulevards/lobby/IMG_1892.jpeg"
+                                    alt="ABIL Boulevard Lobby — PUSH door plate">
+                                <img src="images/boulevards/lobby/IMG_1884.jpeg" alt="ABIL Boulevard Lobby — Exit door">
+                                <img src="images/boulevards/lobby/IMG_1885.jpeg"
+                                    alt="ABIL Boulevard Lobby — PULL hardware">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('lobby', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('lobby', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-lobby">1 / 10</span>
+                        </div>
+                    </div>
+
+                    <!-- Tranquil carousel — order: 1243 -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Tranquil</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-tranquil">
+                                <img src="images/boulevards/tranquil/IMG_1872.jpeg" alt="Tranquil — Entrance gate">
+                                <img src="images/boulevards/tranquil/IMG_1869.jpeg" alt="Tranquil — Rules pylon">
+                                <img src="images/boulevards/tranquil/IMG_1868.jpeg" alt="Tranquil — Plant stake close">
+                                <img src="images/boulevards/tranquil/IMG_1867.jpeg" alt="Tranquil — Plant stake wide">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('tranquil', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('tranquil', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-tranquil">1 / 4</span>
+                        </div>
+                    </div>
+
+                    <!-- Pylons carousel — order: 3412 -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Pylons</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-pylons">
+                                <img src="images/boulevards/pylons/IMG_1933.jpeg"
+                                    alt="ABIL Boulevard Pylons — Basement Parking">
+                                <img src="images/boulevards/pylons/IMG_1864.jpeg"
+                                    alt="ABIL Boulevard Pylons — MLCP Bays">
+                                <img src="images/boulevards/pylons/IMG_1881.jpeg"
+                                    alt="ABIL Boulevard Pylons — Reception Lobby">
+                                <img src="images/boulevards/pylons/IMG_1899.jpeg"
+                                    alt="ABIL Boulevard Pylons — No Entry Exit">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('pylons', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('pylons', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-pylons">1 / 4</span>
+                        </div>
+                    </div>
+
+                    <!-- Compliance carousel -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Compliance</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-compliance">
+                                <img src="images/boulevards/compliance/2.jpeg" alt="Compliance 02">
+                                <img src="images/boulevards/compliance/3.jpeg" alt="Compliance 03">
+                                <img src="images/boulevards/compliance/4.jpeg" alt="Compliance 04">
+                                <img src="images/boulevards/compliance/5.jpeg" alt="Compliance 05">
+                                <img src="images/boulevards/compliance/6.jpeg" alt="Compliance 06">
+                                <img src="images/boulevards/compliance/7.jpeg" alt="Compliance 07">
+                                <img src="images/boulevards/compliance/8.jpeg" alt="Compliance 08">
+                                <img src="images/boulevards/compliance/9.jpeg" alt="Compliance 09">
+                                <img src="images/boulevards/compliance/1.jpeg" alt="Compliance 01">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('compliance', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('compliance', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-compliance">1 / 9</span>
+                        </div>
+                    </div>
+
+                    <!-- WC carousel -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">WC</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-wc">
+                                <img src="images/boulevards/wc/IMG_1839.jpeg" alt="WC 01">
+                                <img src="images/boulevards/wc/IMG_1843.jpeg" alt="WC 02">
+                                <img src="images/boulevards/wc/IMG_1845.jpeg" alt="WC 03">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('wc', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('wc', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-wc">1 / 3</span>
+                        </div>
+                    </div>
+
+                    <!-- Finer Touches carousel -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Finer Touches</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-finer">
+                                <img src="images/boulevards/finer-touches/1.jpeg" alt="Finer Touches 01">
+                                <img src="images/boulevards/finer-touches/2.jpeg" alt="Finer Touches 02">
+                                <img src="images/boulevards/finer-touches/3.jpeg" alt="Finer Touches 03">
+                                <img src="images/boulevards/finer-touches/4.jpeg" alt="Finer Touches 04">
+                                <img src="images/boulevards/finer-touches/5.jpeg" alt="Finer Touches 05">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('finer', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('finer', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-finer">1 / 5</span>
+                        </div>
+                    </div>
+
+                    <!-- Parking carousel -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Parking</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-parking">
+                                <img src="images/boulevards/parking/1.jpeg" alt="Parking 01">
+                                <img src="images/boulevards/parking/2.jpeg" alt="Parking 02">
+                                <img src="images/boulevards/parking/3.jpeg" alt="Parking 03">
+                                <img src="images/boulevards/parking/4.jpeg" alt="Parking 04">
+                                <img src="images/boulevards/parking/5.jpeg" alt="Parking 05">
+                                <img src="images/boulevards/parking/6.jpeg" alt="Parking 06">
+                                <img src="images/boulevards/parking/7.jpeg" alt="Parking 07">
+                                <img src="images/boulevards/parking/8.jpeg" alt="Parking 08">
+                                <img src="images/boulevards/parking/9.jpeg" alt="Parking 09">
+                                <img src="images/boulevards/parking/10.jpeg" alt="Parking 10">
+                                <img src="images/boulevards/parking/11.jpeg" alt="Parking 11">
+                                <img src="images/boulevards/parking/12.jpg" alt="Parking 12">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('parking', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('parking', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-parking">1 / 12</span>
+                        </div>
+                    </div>
+                    <!-- Caffe Boulevard carousel -->
+                    <div class="blvd-carousel-section">
+                        <p class="blvd-carousel-label">Caffè Boulevard</p>
+                        <div class="blvd-carousel-wrap">
+                            <div class="blvd-carousel-track" id="carousel-caffe">
+                                <img src="images/boulevards/caffe/IMG_1916.jpeg"
+                                    alt="Caffe Boulevard — Glass door entry">
+                                <img src="images/boulevards/caffe/IMG_1919.jpeg"
+                                    alt="Caffe Boulevard — Dimensional signage">
+                                <img src="images/boulevards/caffe/IMG_1921.jpeg"
+                                    alt="Caffe Boulevard — Food vendor interior">
+                            </div>
+                        </div>
+                        <div class="blvd-carousel-nav">
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('caffe', -1)">&#8592;</button>
+                            <button class="blvd-carousel-btn" onclick="blvdCarousel('caffe', 1)">&#8594;</button>
+                            <span class="blvd-carousel-counter" id="counter-caffe">1 / 3</span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="cs-note">
+                    <p class="cs-note-label">Scope</p>
+                    <p class="cs-note-text">Lobby · Pylons · Caffe Boulevard · Tranquil · Parking · WC · Compliance ·
+                        Finer Touches. Full signage identity designed and delivered in-house at ABIL Group.</p>
+                </div>
+
+            </div>
+
+
+
+    </section>
+
+    <!-- Disciplines -->
+    <!-- Identity strip -->
+    <section class="identity-strip reveal">
+        <div class="identity-left">
+            <p class="section-eyebrow">Identity</p>
+            <blockquote style="position:relative; overflow:visible; margin-bottom: 8px;">
+                <span aria-hidden="true"
+                    style="font-family:var(--serif);font-style:italic;font-size:180px;color:var(--terra);line-height:1;opacity:0.13;letter-spacing:-0.04em;font-weight:400;position:absolute;top:-30px;left:-10px;z-index:0;pointer-events:none;user-select:none;display:block;">F</span>
+                <span aria-hidden="true"
+                    style="font-family:var(--serif);font-style:italic;font-size:180px;color:var(--terra);line-height:1;opacity:0.13;letter-spacing:-0.04em;font-weight:400;position:absolute;bottom:-60px;right:-10px;z-index:0;pointer-events:none;user-select:none;display:block;">F</span>
+                <span
+                    style="position:relative;z-index:1;display:block;font-family:var(--serif);font-size:clamp(28px,3.5vw,44px);font-weight:400;font-style:normal;color:var(--umber);line-height:1.25;letter-spacing:0.01em;">Form
+                    <span style="font-style:italic;color:var(--sienna);">follows</span></span>
+                <span
+                    style="position:relative;z-index:1;display:block;font-family:var(--serif);font-size:clamp(28px,3.5vw,44px);font-weight:400;font-style:normal;color:var(--umber);line-height:1.25;letter-spacing:0.01em;">Function.</span>
+            </blockquote>
+        </div>
+        <div class="identity-right">
+            <div class="id-cell">
+                <p class="id-cell-label">Education</p>
+                <p class="id-cell-value">M.Des Industrial Design<br>Florence Design Academy</p>
+            </div>
+            <div class="id-cell">
+                <p class="id-cell-label">Current role</p>
+                <p class="id-cell-value">Graphic & Visual Designer<br>ABIL Group, Pune</p>
+            </div>
+            <div class="id-cell">
+                <p class="id-cell-label">Outside the studio</p>
+                <p class="id-cell-value">Bachata · Track Riding<br>Jiu-Jutsu · Boxing · Kickboxing</p>
+            </div>
+            <div class="id-cell">
+                <p class="id-cell-label">Available for</p>
+                <p class="id-cell-value">Freelance identity projects<br>Collaborations · Consulting</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact reveal" id="contact">
+        <div>
+            <h2 class="contact-heading">
+                <span>Let's make</span>
+                something
+                <span
+                    style="display:block;font-family:var(--serif);font-style:italic;font-size:0.65em;color:var(--terra);">considered.</span>
+            </h2>
+        </div>
+        <div class="contact-right">
+            <p class="contact-body">Open to select freelance briefs, brand identity collaborations, and conversations
+                about luxury, craft, and the spaces between disciplines.</p>
+            <div class="contact-links">
+                <a href="mailto:askworks.design@gmail.com" class="contact-link">
+                    <span class="contact-link-line"></span>
+                    askworks.design@gmail.com
+                </a>
+                <a href="https://www.linkedin.com/in/aryaman-kaushik-358570185/" target="_blank" class="contact-link">
+                    <span class="contact-link-line"></span>
+                    LinkedIn
+                </a>
+                <a href="https://www.instagram.com/ask.works/" target="_blank" class="contact-link">
+                    <span class="contact-link-line"></span>
+                    Instagram
+                </a>
+                <a href="https://www.behance.net/aryamanskaf5aa" target="_blank" class="contact-link">
+                    <span class="contact-link-line"></span>
+                    Behance
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+        <div style="position:relative; display:inline-block; max-width:92vw; max-height:92vh;">
+            <img id="lightbox-img" src="" alt=""
+                style="max-width:92vw; max-height:92vh; object-fit:contain; display:block;">
+            <div class="lightbox-caption" id="lightbox-caption" style="display:none;">
+                <strong id="lightbox-caption-title"></strong>
+                <p id="lightbox-caption-body"></p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <footer>
+        <span class="footer-logo">Atelier ASK — Aryaman Suresh Kaushik</span>
+        <span class="footer-copy">© 2025 · Pune, India</span>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!window.location.hash) { history.scrollRestoration = "manual"; window.scrollTo(0, 0); }
+
+            const cursor = document.getElementById('cursor');
+            const ring = document.getElementById('cursorRing');
+            let mx = 0, my = 0, rx = 0, ry = 0;
+
+            document.addEventListener('mousemove', e => {
+                mx = e.clientX; my = e.clientY;
+                cursor.style.left = mx + 'px';
+                cursor.style.top = my + 'px';
+            });
+
+            function animateRing() {
+                rx += (mx - rx) * 0.12;
+                ry += (my - ry) * 0.12;
+                ring.style.left = rx + 'px';
+                ring.style.top = ry + 'px';
+                requestAnimationFrame(animateRing);
+            }
+            animateRing();
+
+            document.querySelectorAll('a, button, .work-item').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+                    ring.style.opacity = '0.2';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+                    ring.style.opacity = '0.6';
+                });
+            });
+
+            // Hero slideshow
+            const slides = Array.from(document.querySelectorAll('.hero-slide'));
+            const dots = Array.from(document.querySelectorAll('.hero-dot'));
+            let currentSlide = 0;
+            let slideshowTimer;
+
+            function goToSlide(index) {
+                slides[currentSlide].classList.remove('active');
+                dots[currentSlide].classList.remove('active');
+                currentSlide = (index + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+
+            function startSlideshow() {
+                slideshowTimer = setInterval(() => goToSlide(currentSlide + 1), 3000);
+            }
+
+            function resetSlideshow() {
+                clearInterval(slideshowTimer);
+                startSlideshow();
+            }
+
+            startSlideshow();
+
+            // Dot clicks
+            dots.forEach(dot => {
+                dot.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    goToSlide(parseInt(this.dataset.index));
+                    resetSlideshow();
+                });
+            });
+
+            // Click slide to open project
+            slides.forEach(slide => {
+                slide.addEventListener('click', function () {
+                    const projectId = this.dataset.project;
+                    const card = document.getElementById('wi-' + projectId);
+                    openCase(projectId);
+                    setTimeout(() => {
+                        document.getElementById('cs-' + projectId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                });
+            });
+
+            // LUMA Flipbook
+            let lumaPage = 1;
+            const lumaTotalPages = 32;
+
+            window.lumaFlip = function (dir) {
+                lumaPage = Math.max(1, Math.min(lumaTotalPages, lumaPage + dir));
+                const padded = lumaPage.toString().padStart(2, '0');
+                document.getElementById('luma-fb-img').src = 'images/luma-page-' + padded + '.jpg';
+                document.getElementById('luma-fb-counter').textContent = 'Page ' + lumaPage + ' of ' + lumaTotalPages;
+            };
+
+            document.addEventListener('keydown', function (e) {
+                const cs = document.getElementById('cs-luma');
+                if (!cs || !cs.classList.contains('open')) return;
+                if (e.key === 'ArrowRight') lumaFlip(1);
+                if (e.key === 'ArrowLeft') lumaFlip(-1);
+            });
+
+            // Lightbox
+            window.openLightbox = function (src, captionTitle, captionBody) {
+                const lb = document.getElementById('lightbox');
+                document.getElementById('lightbox-img').src = src;
+                const cap = document.getElementById('lightbox-caption');
+                if (captionTitle || captionBody) {
+                    document.getElementById('lightbox-caption-title').textContent = captionTitle || '';
+                    document.getElementById('lightbox-caption-body').textContent = captionBody || '';
+                    cap.style.display = 'block';
+                } else {
+                    cap.style.display = 'none';
+                }
+                lb.classList.add('open');
+            };
+            window.closeLightbox = function () {
+                document.getElementById('lightbox').classList.remove('open');
+            };
+            document.getElementById('lightbox').addEventListener('click', function (e) {
+                if (e.target === this) closeLightbox();
+            });
+
+            // ABIL Boulevard carousels -- drag/swipe + click-to-lightbox
+            const blvdCarousels = {};
+
+            function updateCarouselPosition(id) {
+                const track = document.getElementById('carousel-' + id);
+                const counter = document.getElementById('counter-' + id);
+                if (!track) return;
+                const imgs = track.querySelectorAll('img');
+                const idx = blvdCarousels[id] || 0;
+                let offset = 0;
+                for (let i = 0; i < idx; i++) offset += imgs[i].offsetWidth + 3;
+                track.style.transform = 'translateX(-' + offset + 'px)';
+                if (counter) counter.textContent = (idx + 1) + ' / ' + imgs.length;
+            }
+
+            window.blvdCarousel = function (id, dir) {
+                const track = document.getElementById('carousel-' + id);
+                if (!track) return;
+                const total = track.querySelectorAll('img').length;
+                if (!blvdCarousels[id]) blvdCarousels[id] = 0;
+                blvdCarousels[id] = Math.max(0, Math.min(total - 1, blvdCarousels[id] + dir));
+                updateCarouselPosition(id);
+            };
+
+            // Init drag/swipe and lightbox on all carousels
+            document.querySelectorAll('.blvd-carousel-wrap').forEach(function (wrap) {
+                const track = wrap.querySelector('.blvd-carousel-track');
+                if (!track) return;
+                const id = track.id.replace('carousel-', '');
+                let startX = 0, moved = false, isDragging = false;
+
+                wrap.addEventListener('mousedown', function (e) {
+                    startX = e.clientX; isDragging = true; moved = false;
+                    track.style.transition = 'none';
+                    wrap.classList.add('dragging');
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', function (e) {
+                    if (!isDragging) return;
+                    if (Math.abs(e.clientX - startX) > 5) moved = true;
+                });
+
+                document.addEventListener('mouseup', function (e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    track.style.transition = '';
+                    wrap.classList.remove('dragging');
+                    const diff = e.clientX - startX;
+                    if (Math.abs(diff) > 40) blvdCarousel(id, diff < 0 ? 1 : -1);
+                });
+
+                wrap.addEventListener('touchstart', function (e) {
+                    startX = e.touches[0].clientX; moved = false;
+                    track.style.transition = 'none';
+                }, { passive: true });
+
+                wrap.addEventListener('touchmove', function (e) {
+                    if (Math.abs(e.touches[0].clientX - startX) > 5) moved = true;
+                }, { passive: true });
+
+                wrap.addEventListener('touchend', function (e) {
+                    track.style.transition = '';
+                    const diff = e.changedTouches[0].clientX - startX;
+                    if (Math.abs(diff) > 40) blvdCarousel(id, diff < 0 ? 1 : -1);
+                });
+
+                // Click images to open lightbox (only if not dragged)
+                track.querySelectorAll('img').forEach(function (img) {
+                    img.style.cursor = 'zoom-in';
+                    img.addEventListener('click', function () {
+                        if (!moved) {
+                            const wrap = img.closest('.blvd-img-wrap');
+                            const title = wrap ? (wrap.querySelector('.blvd-caption strong') || {}).textContent : null;
+                            const body = wrap ? (wrap.querySelector('.blvd-caption p') || {}).textContent : null;
+                            openLightbox(img.src, title, body);
+                        }
+                    });
+                });
+            });
+
+            function openCase(id) {
+                const cs = document.getElementById('cs-' + id);
+                if (!cs) return;
+                const isOpen = cs.classList.contains('open');
+                document.querySelectorAll('.case-study').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('.work-item').forEach(w => w.classList.remove('active-case'));
+                if (!isOpen) {
+                    cs.classList.add('open');
+                    const card = document.getElementById('wi-' + id);
+                    if (card) card.classList.add('active-case');
+                    setTimeout(() => cs.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+                }
+            }
+
+            window.filterByDiscipline = function (discipline, cardEl) {
+                const allDisciplineCards = document.querySelectorAll('.discipline-item');
+                const allWorkItems = Array.from(document.querySelectorAll('.work-item[data-discipline]'));
+                const label = document.getElementById('filter-label');
+                const grid = document.querySelector('.work-grid');
+                const isActive = cardEl.classList.contains('active');
+
+                // Close any open case studies
+                document.querySelectorAll('.case-study').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('.work-item').forEach(w => w.classList.remove('active-case'));
+
+                if (isActive) {
+                    // Reset -- restore original order using data-original-order
+                    allDisciplineCards.forEach(d => d.classList.remove('active', 'dimmed'));
+                    allWorkItems.forEach(w => {
+                        w.classList.remove('filtered-out');
+                        w.style.order = w.dataset.originalOrder || '0';
+                    });
+                    label.classList.remove('visible');
+                    label.textContent = '';
+                } else {
+                    // Store original order once
+                    allWorkItems.forEach((w, i) => {
+                        if (!w.dataset.originalOrder) w.dataset.originalOrder = i;
+                    });
+
+                    // Update discipline card states
+                    allDisciplineCards.forEach(d => {
+                        d.classList.remove('active', 'dimmed');
+                        d.dataset.filter === discipline ? d.classList.add('active') : d.classList.add('dimmed');
+                    });
+
+                    // Reorder: matching cards first, others after -- no dimming
+                    let matchOrder = 0;
+                    let restOrder = 100;
+                    allWorkItems.forEach(w => {
+                        const disciplines = w.dataset.discipline || '';
+                        if (disciplines.includes(discipline)) {
+                            w.style.order = matchOrder++;
+                            w.classList.remove('filtered-out');
+                        } else {
+                            w.style.order = restOrder++;
+                            w.classList.add('filtered-out');
+                        }
+                    });
+
+                    const name = cardEl.querySelector('.discipline-name').textContent;
+                    label.textContent = 'Showing: ' + name;
+                    label.classList.add('visible');
+
+                    setTimeout(() => {
+                        document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            };
+
+            window.closeCase = function (e, id) {
+                e.stopPropagation();
+                const cs = document.getElementById('cs-' + id);
+                if (cs) cs.classList.remove('open');
+                document.querySelectorAll('.work-item').forEach(w => w.classList.remove('active-case'));
+                const card = document.getElementById('wi-' + id);
+                if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+
+            document.querySelectorAll('.discipline-item[data-filter]').forEach(function (card) {
+                card.addEventListener('click', function () {
+                    filterByDiscipline(this.dataset.filter, this);
+                });
+            });
+
+            document.querySelectorAll('.work-item[id]').forEach(function (card) {
+                card.addEventListener('click', function () {
+                    const id = this.id.replace('wi-', '');
+                    openCase(id);
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) e.target.classList.add('visible');
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        });
+    </script>
+</body>
+
+</html>
